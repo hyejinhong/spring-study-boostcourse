@@ -21,6 +21,9 @@
 		${guestbook.name} <br>
 		${guestbook.content} <br>
 		${guestbook.regdate} <br>
+		<c:if test="${sessionScope.isAdmin == 'true'}">
+			<a href="delete?id=${guestbook.id}">삭제</a> <br><br>
+		</c:if>
 		<hr>
 	</c:forEach>
 	
@@ -32,7 +35,7 @@
 	
 	<br><br>
 	
-	<form method="post" actions="write">
+	<form method="post" actions="/write">
 		이름: <input type="text" name="name">
 		<textarea name="content" rows="6" cols="60"></textarea>
 		<br><input type="submit" value="등록">

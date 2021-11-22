@@ -12,7 +12,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.or.connect.guestbook.dto.Guestbook;
 import kr.or.connect.guestbook.service.GuestbookService;
@@ -65,5 +70,52 @@ public class GuestbookController {
 		model.addAttribute("cookieCount", value);
 
 		return "list"; // 뷰 이름을 넘겨줌
+	}
+	
+//	@PostMapping("write")
+//	public String write(@RequestBody Guestbook guestbook,
+//			HttpServletRequest request) {
+//	
+//		String clientIp = request.getRemoteAddr();
+//		System.out.println("ㅎㅇ" + clientIp);
+//		// id가 입력된 guestbook이 반환된다.
+//		Guestbook resultGuestbook = guestbookService.addGuestbook(guestbook, clientIp);
+//		
+//		// 클라이언트로 갈 때는 json으로 전송됨
+//		return "list";
+//	}
+//	@PostMapping(path="/write")
+//	public String write(@ModelAttribute Guestbook guestbook, HttpServletRequest request) {
+//		String clientIp = request.getRemoteAddr();
+//		System.out.println("clientIp : " + clientIp);
+//		guestbookService.addGuestbook(guestbook, clientIp);
+//		return "redirect:list";
+//	}
+	@PostMapping(path="/write")
+	public String write(@ModelAttribute Guestbook guestbook, HttpServletRequest request) 
+	{
+		String clientIp = request.getRemoteAddr();
+		System.out.println("clientIp : " + clientIp);
+		guestbookService.addGuestbook(guestbook, clientIp);
+		return "redirect:list";
+	}
+	
+
+	@GetMapping("/delete")
+	public String delete(@RequestParam Long id,
+			@SessionAttribute String isAdmin,
+			HttpServletRequest request,
+			RedirectAttributes redirectAttr) {
+		
+		if(isAdmin == null || !"true".equals(isAdmin)) {
+			redirectAttr.addFlashAttribute("errorMessage", "로그인을 하지 않았습니다..");
+			return "redirect:loginform";
+		}
+		
+		String clientIp = request.getRemoteAddr();
+		System.out.println(clientIp);
+		guestbookService.deleteGuestbook(id, clientIp);
+		return "redirect:list";
+		
 	}
 }
