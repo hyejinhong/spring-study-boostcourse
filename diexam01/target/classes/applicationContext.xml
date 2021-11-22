@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="userBean" class="kr.or.connect.diexam01.UserBean"/>
+	<bean id="e" class="kr.or.connect.diexam01.Engine"/>
+	<bean id="c" class="kr.or.connect.diexam01.Car">
+		<property name="engine" ref="e"></property>
+	</bean>
+	
+	<!-- property 태그는 getter 혹은 setter임
+	그런데 bean은 무엇을 설정하는 것 밖에 못하므로 setter가 됨
+	그래서 setEngine -> set을 생략하여 name="engine"이 된 것이고
+	ref에는 id==e 인 bean(클래스)를 파라미터로 넣어달라는 것임 -->
+</beans>
