@@ -35,7 +35,7 @@
 	
 	<br><br>
 	
-	<form method="post" actions="/write">
+	<form method="post" action="write">
 		이름: <input type="text" name="name">
 		<textarea name="content" rows="6" cols="60"></textarea>
 		<br><input type="submit" value="등록">

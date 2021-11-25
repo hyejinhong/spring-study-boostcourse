@@ -84,22 +84,14 @@ public class GuestbookController {
 //		// 클라이언트로 갈 때는 json으로 전송됨
 //		return "list";
 //	}
-//	@PostMapping(path="/write")
-//	public String write(@ModelAttribute Guestbook guestbook, HttpServletRequest request) {
-//		String clientIp = request.getRemoteAddr();
-//		System.out.println("clientIp : " + clientIp);
-//		guestbookService.addGuestbook(guestbook, clientIp);
-//		return "redirect:list";
-//	}
 	@PostMapping(path="/write")
-	public String write(@ModelAttribute Guestbook guestbook, HttpServletRequest request) 
-	{
+	public String write(@ModelAttribute Guestbook guestbook, HttpServletRequest request) {
 		String clientIp = request.getRemoteAddr();
 		System.out.println("clientIp : " + clientIp);
 		guestbookService.addGuestbook(guestbook, clientIp);
 		return "redirect:list";
 	}
-	
+
 
 	@GetMapping("/delete")
 	public String delete(@RequestParam Long id,
