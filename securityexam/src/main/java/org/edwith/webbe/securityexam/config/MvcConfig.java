@@ -25,7 +25,7 @@ public class MvcConfig implements WebMvcConfigurer {
 	// jsp 위치 설정
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
-		registry.jsp("/WEB-INF/view", "jsp");
+		registry.jsp("/WEB-INF/view/", ".jsp");
 	}
 
 	// root path 요청시 main으로 리다이렉트

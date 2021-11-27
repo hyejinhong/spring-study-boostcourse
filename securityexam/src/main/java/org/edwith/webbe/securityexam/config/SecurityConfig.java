@@ -1,18 +1,26 @@
 package org.edwith.webbe.securityexam.config;
 
+import org.edwith.webbe.securityexam.service.security.CustomUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
+	@Autowired
+	CustomUserDetailsService customUserDetailsService;
+	
 	// /webjars/** 경로에 대한 요청은 인증/인가 하지 않는다.
 	@Override
 	public void configure(WebSecurity web) throws Exception {
@@ -20,11 +28,35 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	}
 	
 	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(customUserDetailsService);
+	}
+	
+	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		CharacterEncodingFilter filter = new CharacterEncodingFilter();
+		filter.setEncoding("UTF-8");
+		filter.setForceEncoding(true);
+		http.addFilterBefore(filter, CsrfFilter.class);
+		
 		http.csrf().disable()
 		.authorizeRequests()
-		.antMatchers("/", "/main").permitAll() // /main은 누구나 가능
-		.anyRequest().authenticated(); // 그 외 요청은 인증 후 접근해야함
+		.antMatchers("/", "/main", "/memembers/loginerror", "/members/joinform", "/members/join", "/members/welcome").permitAll() // /main은 누구나 가능
+		.antMatchers("/securepage", "/members/**").hasRole("USER")
+		.anyRequest().authenticated() // 그 외 요청은 인증 후 접근해야함
+		.and()
+			.formLogin()
+			.loginPage("/members/loginform")
+			.usernameParameter("userId")
+			.passwordParameter("password")
+			.loginProcessingUrl("/authenticate")
+			.failureForwardUrl("/members/loginerror?login_error=1")
+			.defaultSuccessUrl("/", true)
+			.permitAll()
+		.and()
+			.logout()
+			.logoutUrl("/logout")
+			.logoutSuccessUrl("/");
 	}
 	
 	// 암호 인코딩 or 인코딩 암호와 사용자 입력 암호 일치 확인 시 사용
