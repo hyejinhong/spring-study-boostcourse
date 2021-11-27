@@ -9,12 +9,12 @@ public class MainController {
 	@RequestMapping("/main")
 	@ResponseBody
 	public String main() {
-		return "main page";
+		return "hi";
 	}
 	
 	@RequestMapping("/securepage")
 	@ResponseBody
 	public String securitypage() {
-		return "secure page";
+		return "이건 못볼걸";
 	}
 }

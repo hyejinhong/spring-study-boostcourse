@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
+	// /webjars/** 경로에 대한 요청은 인증/인가 하지 않는다.
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/webjars/**");
@@ -22,10 +23,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
 		.authorizeRequests()
-		.antMatchers("/", "/main").permitAll()
-		.anyRequest().authenticated();
+		.antMatchers("/", "/main").permitAll() // /main은 누구나 가능
+		.anyRequest().authenticated(); // 그 외 요청은 인증 후 접근해야함
 	}
 	
+	// 암호 인코딩 or 인코딩 암호와 사용자 입력 암호 일치 확인 시 사용
 	@Bean
 	public PasswordEncoder encoder() {
 		return new BCryptPasswordEncoder();
