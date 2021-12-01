@@ -1,24 +1,30 @@
 package org.edwith.webbe.securityexam.service.security;
 
 public class UserEntity {
-	private String loginUerId;
+	private String loginUserId;
 	private String password;
 	
-	public UserEntity(String loginUerId, String password) {
-		this.loginUerId = loginUerId;
+	public UserEntity(String loginUserId, String password) {
+		super();
+		this.loginUserId = loginUserId;
 		this.password = password;
 	}
-	
-	public String getLoginUerId() {
-		return loginUerId;
+
+	public String getLoginUserId() {
+		return loginUserId;
 	}
-	public void setLoginUerId(String loginUerId) {
-		this.loginUerId = loginUerId;
+
+	public void setLoginUserId(String loginUserId) {
+		this.loginUserId = loginUserId;
 	}
+
 	public String getPassword() {
 		return password;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+
 }

@@ -27,6 +27,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		web.ignoring().antMatchers("/webjars/**");
 	}
 	
+	// userDetailsService로 이용할, 구현한 서비스를 설정한다.
+	/*
+	 AuthenticationFilter가 아이디/암호를 로그인해서 처리하는 필터
+	 입력받은 아이디에 해당하는 정보를 DB에서 읽을 때 UserDetailsService를 구현한 객체를 이용함.
+	 */
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(customUserDetailsService);
@@ -47,15 +52,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.and()
 			.formLogin()
 			.loginPage("/members/loginform")
+			// 로그인시 사용할 아이디, 비밀번호 설정
+			// <input>의 name 파라미터와 같은 이름을 가져야 한다.
 			.usernameParameter("userId")
 			.passwordParameter("password")
+			
 			.loginProcessingUrl("/authenticate")
 			.failureForwardUrl("/members/loginerror?login_error=1")
 			.defaultSuccessUrl("/", true)
 			.permitAll()
 		.and()
 			.logout()
-			.logoutUrl("/logout")
+			.logoutUrl("/logout") // 로그아웃 url 설정
 			.logoutSuccessUrl("/");
 	}
 	

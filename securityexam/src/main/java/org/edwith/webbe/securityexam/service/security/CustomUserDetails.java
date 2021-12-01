@@ -5,6 +5,9 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+/*
+	DB에서 읽어들인 로그인 정보는 UserDetails 인터페이스를 구현한 객체에 저장되어야 함.
+*/
 public class CustomUserDetails implements UserDetails {
 	private String username;
 	private String password;
