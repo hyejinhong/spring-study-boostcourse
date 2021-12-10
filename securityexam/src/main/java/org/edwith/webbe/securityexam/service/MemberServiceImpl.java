@@ -43,4 +43,20 @@ public class MemberServiceImpl implements MemberService {
 		return list;
 	}
 
+	@Override
+	@Transactional
+	public void addMember(Member member, boolean admin) {
+		memberDao.insert(member);
+		
+		Member selectedMember = memberDao.getMemberByEmail(member.getEmail());
+		Long memberId = selectedMember.getId();
+		
+		// 관리자인 경우 관리자 권한 넣어줌
+		if(admin) {
+			memberRoleDao.addAdminRole(memberId);
+		}
+		
+		memberRoleDao.addUserRole(memberId);
+	}
+
 }

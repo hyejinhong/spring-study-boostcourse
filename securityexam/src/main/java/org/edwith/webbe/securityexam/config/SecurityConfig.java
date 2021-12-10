@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		http.csrf().disable()
 		.authorizeRequests()
-		.antMatchers("/", "/main", "/memembers/loginerror", "/members/joinform", "/members/join", "/members/welcome").permitAll() // /main은 누구나 가능
+		.antMatchers("/", "/main", "/members/loginerror", "/members/joinform", "/members/join", "/members/welcome", "/members/join").permitAll() // /main은 누구나 가능
 		.antMatchers("/securepage", "/members/**").hasRole("USER")
 		.anyRequest().authenticated() // 그 외 요청은 인증 후 접근해야함
 		.and()

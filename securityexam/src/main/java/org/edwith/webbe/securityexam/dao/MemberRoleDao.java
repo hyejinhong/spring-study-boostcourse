@@ -28,4 +28,16 @@ public class MemberRoleDao {
 		
 		return jdbc.query(MemberRoleDaoSqls.SELECT_ALL_BY_EMAIL, map, rowMapper);
 	}
+
+	public void addAdminRole(Long memberId) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("member_id", memberId);
+		jdbc.update(MemberRoleDaoSqls.INSERT_ADMIN_ROLE, params);
+	}
+
+	public void addUserRole(Long memberId) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("member_id", memberId);
+		jdbc.update(MemberRoleDaoSqls.INSERT_USER_ROLE, params);
+	}
 }
