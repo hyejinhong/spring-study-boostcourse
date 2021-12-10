@@ -1,9 +1,12 @@
 package org.edwith.webbe.securityexam.controller;
 
+import java.security.Principal;
+
 import org.edwith.webbe.securityexam.dto.Member;
 import org.edwith.webbe.securityexam.service.MemberService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,5 +45,20 @@ public class MemberController {
 		memberService.addMember(member, false);
 		
 		return "redirect:/members/welcome";
+	}
+	
+	@GetMapping("/welcome")
+	public String welcome() {
+		return "members/welcome";
+	}
+	
+	@GetMapping("/memberinfo")
+	public String memberInfo(Principal principal, ModelMap modelMap) {
+		String loginId = principal.getName();
+		Member member = memberService.getMemberByEmail(loginId);
+		
+		modelMap.addAttribute("member", member);
+		
+		return "members/memberinfo";
 	}
 }

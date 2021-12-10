@@ -59,4 +59,9 @@ public class MemberServiceImpl implements MemberService {
 		memberRoleDao.addUserRole(memberId);
 	}
 
+	@Override
+	public Member getMemberByEmail(String loginId) {
+		return memberDao.getMemberByEmail(loginId);
+	}
+
 }
