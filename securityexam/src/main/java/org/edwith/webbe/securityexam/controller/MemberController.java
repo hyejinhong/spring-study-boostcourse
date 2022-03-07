@@ -43,7 +43,6 @@ public class MemberController {
 	public String join(@ModelAttribute Member member) {
 		member.setPassword(passwordEncoder.encode(member.getPassword()));
 		memberService.addMember(member, false);
-		
 		return "redirect:/members/welcome";
 	}
 	

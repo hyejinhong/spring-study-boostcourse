@@ -18,13 +18,13 @@ public class PasswordEncoderTest {
 	
 	@Test
 	public void passwordEncode() throws Exception {
-		System.out.println(encoder.encode("12345"));
+		System.out.println(encoder.encode("1234"));
 	}
 	
 	@Test
 	public void passwordTest() throws Exception {
-		String encodedPasswd = "$2a$10$BLc6LrJjEIFKdDcIGlRvtOqVS2Faq8sV/VjyThZrsfPqo5i6fHkHm";
-		String password = "12345";
+		String encodedPasswd = "$2a$10$G/ADAGLU3vKBd62E6GbrgetQpEKu2ukKgiDR5TWHYwrem0cSv6Z8m";
+		String password = "1234";
 		
 		boolean test = encoder.matches(password, encodedPasswd);
 		System.out.println(test);
