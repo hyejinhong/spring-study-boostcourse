@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kr.or.connect.guestbook.argumentresolver.HeaderInfo;
 import kr.or.connect.guestbook.dto.Guestbook;
 import kr.or.connect.guestbook.service.GuestbookService;
 
@@ -30,7 +31,7 @@ public class GuestbookController {
 	@GetMapping(path = "/list")
 	public String list(@RequestParam(name = "start", required = false, defaultValue = "0") int start, ModelMap model,
 			@CookieValue(value = "count", defaultValue = "0", required = true) String value,
-			HttpServletResponse response) {
+			HttpServletResponse response, HeaderInfo headerInfo) {
 
 		try {
 			int i = Integer.parseInt(value);
@@ -69,6 +70,12 @@ public class GuestbookController {
 		model.addAttribute("pageStartList", pageStartList);
 		model.addAttribute("cookieCount", value);
 
+		
+		// Argument Resolver 테스트
+		System.out.println("*****************************");
+		System.out.println(headerInfo.get("user-agent"));
+		System.out.println("*****************************");
+		
 		return "list"; // 뷰 이름을 넘겨줌
 	}
 	
